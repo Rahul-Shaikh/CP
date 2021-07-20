@@ -4,17 +4,17 @@ using namespace std;
 
 int partition(int* arr, int low, int high) {
     int pivot = arr[high];
-    int i = low-1;
+    int i = low;
 
     for (int itr = low; itr < high; itr++) {
         if (arr[itr] < pivot) {
-            i++;
             swap(arr[itr], arr[i]);
+            i++;
         }
     }
 
-    swap(arr[i+1], arr[high]);
-    return i+1;
+    swap(arr[i], arr[high]);
+    return i;
 }
 
 void quicksort(int *arr, int low, int high) {
