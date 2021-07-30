@@ -31,12 +31,12 @@ class BinarySearchTree {
                 delete root;
                 return NULL;
             }
-            else if (!root->left) {
+            else if (!root->right) {
                 Node* temp = root;
                 root = root->left;
                 delete temp;
                 return root;
-            } else if (!root->right) {
+            } else if (!root->left) {
                 Node* temp = root;
                 root = root->right;
                 delete temp;
@@ -45,7 +45,7 @@ class BinarySearchTree {
                 Node* succ, *succParent;
                 succ = root->right;
                 succParent = root;
-                while (succ) {
+                while (succ->left) {
                     succParent = succ;
                     succ = succ->left;
                 }
