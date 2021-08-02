@@ -63,6 +63,6 @@ int main(void) {
         // printhash(hash);
         // cout << count << endl;
     }
-    if (idx != -1) cout << str.substr(idx, len);\
+    if (idx != -1) cout << str.substr(idx, len);
     else cout << "not present\n";
 }
