@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 
 using namespace std;
 
@@ -105,6 +106,150 @@ public:
         cout << endl;
     }
 
+    void postorderIter() {
+        stack<Node*> s;
+
+        if (!root) {
+            cout << "Tree empty\n";
+            return;
+        }
+
+        Node* curr = root;
+        while (true) {
+            while (curr) {
+                s.push(curr);
+                s.push(curr);
+                curr = curr->left;
+            }
+
+            if (s.empty()) break;
+            curr = s.top();
+            s.pop();
+            if (!s.empty() && curr == s.top()) curr = curr->right;
+            else {
+                cout << curr->val << " ";
+                curr = NULL;
+            }
+        }
+        cout << endl;
+    }
+
+    void postorderIterReverse() {
+        stack<Node*> s;
+
+        if (!root) {
+            cout << "Tree empty\n";
+            return;
+        }
+
+        s.push(root);
+        
+        while (!s.empty()) {
+            Node* node = s.top();
+            s.pop();
+
+            cout << node->val << " ";
+            if (node->left) s.push(node->left);
+            if (node->right) s.push(node->right);
+        }
+
+        cout << endl;
+    }
+    
+    void preorderIter() {
+        stack<Node*> s;
+        if (!root) {
+            cout << "Tree empty\n";
+            return;
+        }
+
+        s.push(root);
+        while (!s.empty()) {
+            Node* node = s.top();
+            s.pop();
+
+            cout << node->val << " ";
+
+            if (node->right) s.push(node->right);
+            if (node->left) s.push(node->left);
+        }
+
+        cout << endl;
+    }
+
+    void inorderIter() {
+        stack<Node*> s;
+        if (!root) {
+            cout << "Tree Empty\n";
+            return;
+        }
+
+        Node* curr = root;
+        while (curr || !s.empty()) {
+            while (curr) {
+                s.push(curr);
+                curr = curr->left;
+            }
+
+            curr = s.top();
+            s.pop();
+            cout << curr->val << " ";
+            curr = curr->right;
+        }
+        cout << endl;
+    }
+
+    void morrisInorder() {
+        if (!root) return;
+        Node* pre;
+        Node* curr = root;
+        while (curr) {
+            if (!curr->left) {
+                cout << curr->val << " ";
+                curr = curr->right;
+            } else {
+                pre = curr->left;
+                while (pre->right && pre->right != curr) pre = pre->right;
+
+                if (pre->right == NULL) {
+                    pre->right = curr;
+                    curr = curr->left;
+                } else {
+                    pre->right = NULL;
+                    cout << curr->val << " ";
+                    curr = curr->right;
+                }
+            }
+        }
+        cout << endl;
+    }
+
+    void morrisPreorder() {
+        if (!root) return;
+        Node* pre;
+        Node* curr = root;
+        while (curr) {
+            if (!curr->left) {
+                cout << curr->val << " ";
+                curr = curr->right;
+            } else {
+                pre = curr->left;
+                while (pre->right && pre->right != curr) pre = pre->right;
+
+                if (pre->right == NULL) {
+                    pre->right = curr;
+                    cout << curr->val << " ";
+                    curr = curr->left;
+                } else {
+                    pre->right = NULL;
+                    curr = curr->right;
+                }
+            }
+        }
+        cout << endl;
+    }
+
+    
     void insert(int n) {
         insertUtil(n, root);
     }
@@ -124,9 +269,12 @@ int main(void) {
     t.insert(1);
     t.insert(2);
     t.insert(6);
+    t.insert(8);
 
-    cout << t.search(8) << endl;
-    t.inorder();
-    t.erase(2);
-    t.inorder();
+    t.inorderIter();
+    t.morrisInorder();
+    t.preorderIter();
+    t.morrisPreorder();
+    t.postorderIter();
+    t.postorderIterReverse();
 }

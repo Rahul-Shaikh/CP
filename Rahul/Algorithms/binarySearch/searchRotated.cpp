@@ -19,9 +19,9 @@ bool searchUtil2(vector<int> &nums, int l, int r, int t) {
         
         if (nums[mid] <= nums[r]) {
             if (t > nums[mid] && t <= nums[r]) return searchUtil2(nums, mid+1, r, t);
-            else return searchUtil2(nums, 0, mid-1, t);
+            else return searchUtil2(nums, l, mid-1, t);
         }
-        if (t < nums[mid] && t >= nums[l]) return searchUtil2(nums, 0, mid-1, t);
+        if (t < nums[mid] && t >= nums[l]) return searchUtil2(nums, l, mid-1, t);
         else return searchUtil2(nums, mid + 1, r,t);
     }
 

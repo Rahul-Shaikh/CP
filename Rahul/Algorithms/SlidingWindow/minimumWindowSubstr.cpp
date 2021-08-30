@@ -11,7 +11,46 @@ void printhash(unordered_map<char, int> hash) {
     }
     cout << endl;
 }
-
+string minWindow(string s, string t) {
+    unordered_map<char, int> um;
+    
+    for (char c: t) um[c]++;
+    int formed = 0;
+    int idx = -1;
+    int len = INT_MAX;
+    int i = 0, j = 0;
+    while (j < s.size()) {
+        if (um.count(s[j])) {
+            if (um[s[j]] == 1) {
+                formed++;
+            }
+            um[s[j]]--;
+        }
+        
+        if (formed < um.size()) {
+            j++;
+        } else if (formed == um.size()) {
+            
+            do {
+                // cout << i << " " << j << endl;
+                if (j-i+1 < len) {
+                    len = j-i+1;
+                    idx = i;
+                }
+                if (um.count(s[i])) {
+                    if (um[s[i]] == 0) {
+                        formed--;
+                    }
+                    um[s[i]]++;
+                }
+                i++;
+            } while (i <= j && formed == um.size());
+            j++;
+        }
+        
+    }
+    return idx != -1 ? s.substr(idx, len) : "";
+}
 int main(void) {
     string str, ptn;
     cin >> str >> ptn;

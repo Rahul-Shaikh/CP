@@ -1,67 +1,33 @@
-#include <iostream>
-#include <queue>
-#include <vector>
-#include <cmath>
 
+vector<vector<int> > dp;
+int solve(string s1, string s2, int i, int j) {
 
-using namespace std;
-typedef pair<int, int> pi;
+    if (i == s1.size() && j == s2.size()) return 0;
 
-bool isValid(int *arr, int n, int disop, int k) {
-    int kc = 0;
-    cout << disop << endl;
-    for (int i = 1; i < n; i++) {
-        if (arr[i] - arr[i-1] > disop) {
-            cout << arr[i] - arr[i-1] << endl;
-            cout << ceil((arr[i] - arr[i-1])/(float)disop) - 1 << endl;
-            kc = kc + ceil((arr[i] - arr[i-1])/(float)disop) - 1;
-            cout << kc << endl;
-            if (kc > k) {
-                cout << "break\n";
-                return false;
-            }
-        }
+    if (i == s1.size()) {
+        return s2.size() - i;
     }
-    
-    return true;
+
+    if (j == s2.size()) {
+        return s1.size() - j;
+    }
+    if (dp[i][j] != -1) return dp[i][j];
+
+    int op = 0;
+    if (s1[i] == s2[j]) return solve(s1, s2, i+1, j + 1);
+    else {
+        int mn = min(solve(s1, s2, i+1, j+1), solve(s1, s2, i+1, j));
+        mn = min(solve(s1, s2, i, j+1), mn);
+        op = 1 + mn;
+    }
+
+    return dp[i][j]=op;
 }
 
+
 int main(void) {
-    int T;
-    cin >> T;
-    int t  =0;
-    while (t++ < T) {
-        int n, k;
-        cin >> n >> k;
-        
-        int arr[n];
-        for (int i = 0; i < n; i++) {
-            cin >> arr[i];
-        }
-        int mxdiff = 0;
-        for (int i = 1; i < n; i++) {
-            mxdiff = max(mxdiff, arr[i] - arr[i-1]);
-        }
-        if (mxdiff <= 1) {
-            cout << "Case #" << t << ": " << mxdiff << endl;
-            continue;
-        }
-        int l = 0;
-        int r = mxdiff;
-        
-        int ans = -1;
-        while (l <= r) {
-            int mid = l + (r-l)/2;
-            cout << l << " " << r << endl;
-            if (isValid(arr, n, mid, k)) {
-                ans = mid;
-                if (mid == 1) break; 
-                r = mid - 1;
-            }
-            else {
-                l = mid + 1;
-            }
-        }
-        cout << "Case #" << t << ": " << ans << endl;
-    }
+    string s1,s2;
+    cin >> s1 >> s2;
+    dp = vector<vector<int> > (s1.size() + 1, vector<int> ( s2.size() +1 ,-1));
+    cout << solve(s1, s2, 0, 0);
 }

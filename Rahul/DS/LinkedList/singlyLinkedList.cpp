@@ -48,15 +48,14 @@ public:
     }
 
     void insert_after(Node* node, int n) {
-        Node* temp = new Node(n);
         if(!node) return;
+        Node* temp = new Node(n);
         temp->next = node->next;
         node->next = temp;
         size++;
     }
 
     void insert(Node* node, int n) {
-        Node* temp = new Node(n);
         if (!node) this->push_back(n);
         Node* headitr = head;
         if (headitr == node) this->push_front(n);
@@ -64,6 +63,7 @@ public:
             headitr = headitr->next;
             if (!headitr) return;
         }
+        Node* temp = new Node(n);
 
         temp->next = headitr->next;
         headitr->next = temp;
