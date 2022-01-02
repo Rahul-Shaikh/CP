@@ -1,0 +1,11 @@
+void printTable(vector<vector<int> > &table) {
+    int h = table.size();
+    int w = table[0].size();
+
+    for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w; j++) {
+            cout << table[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
